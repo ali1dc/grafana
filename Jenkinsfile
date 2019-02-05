@@ -10,7 +10,7 @@ pipeline {
 
     stage('Commit') {
       steps {
-        sh 'sudo rm -rf ./*'
+        sh 'rm -rf ./*'
         checkout scm
         //rvm = new RVMHelper()
         //rvm.setup('2.5.3', repo_name)
