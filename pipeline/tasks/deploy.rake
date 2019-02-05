@@ -23,7 +23,7 @@ task :deploy do
   @cloudformation.deploy_stack(
     stack_name,
     parameters,
-    'provisioning/ecs.yaml'
+    'provisioning/ecs.yml'
   )
   puts 'done!'
 end
