@@ -17,12 +17,14 @@ node {
     rvm '2.5.3'
   }
 
-  stage('Code Analysis') {
-    rake 'rubocop'
-  }
+  withEnv(["AWS_REGION=us-east-1"]) {
+    stage('Code Analysis') {
+      rake 'rubocop'
+    }
 
-  stage('Deployment') {
-    rake 'deploy'
+    stage('Deployment') {
+      rake 'deploy'
+    }
   }
 }
 
