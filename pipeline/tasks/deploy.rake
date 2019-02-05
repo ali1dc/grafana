@@ -9,7 +9,7 @@ task :deploy do
 
   parameters = {
     'VpcId' => 'vpc-123456',
-    'AsgSubnets' => [subnet1, subnet2, subnet3],
+    'AsgSubnets' => [subnet1, subnet2, subnet3].join(','),
     'SubnetId' => '',
     'DesiredCapacity' => '1',
     'MaxSize' => '1',
