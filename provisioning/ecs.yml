@@ -39,7 +39,9 @@ Parameters:
   MemoryReservation:
     Description: Memory reservation for ECS Service Task
     Type: String
-
+  AsgSubnets:
+    Description: ASG subnets
+    Type: String
 
 Mappings:
   AWSRegionToAMI:
