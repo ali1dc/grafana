@@ -20,7 +20,8 @@ pipeline {
           #!/bin/bash -l
           echo $PATH
           ruby --version
-          rvm use 2.5.3
+          source /usr/share/rvm/scripts/rvm
+          rvm use default 2.5.3
           ruby --version
           rvm list
         '''
