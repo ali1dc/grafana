@@ -12,9 +12,9 @@ pipeline {
       steps {
         sh 'rm -rf ./*'
         checkout scm
-        //rvm = new RVMHelper()
-        //rvm.setup('2.5.3', repo_name)
-        sh 'rvm use 2.5.3'
+        // rvm = new RVMHelper()
+        // rvm.setup('2.5.3', repo_name)
+        // sh 'rvm use 2.5.3'
       }
     }
 
