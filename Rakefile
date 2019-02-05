@@ -1,19 +1,14 @@
 # frozen_string_literal: true
 
-$LOAD_PATH << './pipeline/lib'
-# require 'json'
+# $LOAD_PATH << './pipeline/lib'
+
+require 'minimal_pipeline'
+require './pipeline/tasks/shared/vars'
 # require 'erb'
 
 # Load any .rake files under the current directory
-Dir.glob('**/*.rake').each do |task_file|
+Dir.glob('pipeline/tasks/*.rake').each do |task_file|
   load task_file
-end
-
-begin
-  require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new(:spec)
-rescue LoadError
-  print "Unable to load rspec/core/rake_task, spec tests missing\n"
 end
 
 begin
