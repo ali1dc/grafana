@@ -15,12 +15,13 @@ pipeline {
         // rvm = new RVMHelper()
         // rvm.setup('2.5.3', repo_name)
         // sh 'source /usr/share/rvm/scripts/rvm'
-        sh 'rvm list'
-        sh '''
-          #/bin/bash --login
-          sudo apt-get install rvm
-          rvm reinstall 2.5.3
-          rvm use 2.5.3
+
+        sh returnStdout: false, script: '''#!/bin/bash --login
+          set +x
+          source /usr/share/rvm/scripts/rvm && \
+            rvm use --install --create 2.5.3@$xd_grafana && \
+            export | egrep -i "(ruby|rvm)" > rvm.env
+          set -x
           which bundle || gem install bundler
           bundle install
         '''
