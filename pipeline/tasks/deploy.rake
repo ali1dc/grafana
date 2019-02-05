@@ -19,7 +19,7 @@ task :deploy do
     'CpuReservation' => '512',
     'MemoryReservation' => '1024',
     'KeyName' => @keystore.retrieve('SSH_KEYNAME'),
-    "ImageName" => 'grafana/grafana'
+    'ImageName' => 'grafana/grafana'
   }
 
   @cloudformation.deploy_stack(
