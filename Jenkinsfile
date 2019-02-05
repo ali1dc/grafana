@@ -20,7 +20,7 @@ pipeline {
           #!/bin/bash -l
           echo $PATH
           ruby --version
-          rvm use 2.5.3'
+          rvm use 2.5.3
           ruby --version
           rvm list
         '''
