@@ -14,7 +14,7 @@ pipeline {
         pipelineTriggers([pollSCM('* * * * *')]),
       ])
 
-      steps {
+//      steps {
         sh 'rm -rf ./*'
 
         checkout scm
@@ -22,7 +22,7 @@ pipeline {
         // rvm.setup('2.5.3', repo_name)
 
         rvm '2.5.3'
-      }
+//      }
     }
 
     stage('Code Analysis') {
