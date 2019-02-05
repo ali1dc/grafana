@@ -1,7 +1,7 @@
 desc 'Deploy Grafana'
 task :deploy do
   puts 'deploy ecs cloudformation template'
-  stack_name = 'GRAFANA'
+  stack_name = 'GRAFANA-ECS'
 
   subnet1 = @keystore.query?('PRIVATE_SUBNET_1')
   subnet2 = @keystore.query?('PRIVATE_SUBNET_2')
@@ -9,7 +9,7 @@ task :deploy do
 
   parameters = {
     'VpcId' => 'vpc-123456',
-    'AsgSubnets' => %w[subnet1 subnet2 subnet3],
+    'AsgSubnets' => [subnet1, subnet2, subnet3],
     'SubnetId' => '',
     'DesiredCapacity' => '1',
     'MaxSize' => '1',
@@ -20,6 +20,10 @@ task :deploy do
     'KeyName' => @keystore.query?('SSH_KEYNAME')
   }
 
-  @cloudformation.deploy_stack('GRAFANA-ECS', parameters, 'provisioning/ecs.yaml')
+  @cloudformation.deploy_stack(
+    stack_name,
+    parameters,
+    'provisioning/ecs.yaml'
+  )
   puts 'done!'
 end
