@@ -7,8 +7,13 @@ repo_name = 'xd_grafana'
 pipeline {
   agent any
   stages {
-
     stage('Commit') {
+
+      properties([
+        disableConcurrentBuilds(),
+        pipelineTriggers([pollSCM('* * * * *')]),
+      ])
+
       steps {
         sh 'rm -rf ./*'
 
