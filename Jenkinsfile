@@ -5,38 +5,25 @@
 repo_name = 'xd_grafana'
 
 node {
-//  agent any
-//  stages {
-    stage('Commit') {
+  stage('Commit') {
 
-      properties([
-        disableConcurrentBuilds(),
-        pipelineTriggers([pollSCM('* * * * *')]),
-      ])
+    sh('rm -rf ./*')
+    properties([
+      disableConcurrentBuilds(),
+      pipelineTriggers([pollSCM('* * * * *')]),
+    ])
 
-//      steps {
-        sh 'rm -rf ./*'
+    checkout scm
+    rvm '2.5.3'
+  }
 
-        checkout scm
-        // rvm = new RVMHelper()
-        // rvm.setup('2.5.3', repo_name)
+  stage('Code Analysis') {
+    rake 'rubocop'
+  }
 
-        rvm '2.5.3'
-//      }
-    }
-
-    stage('Code Analysis') {
-//      steps {
-        rake 'rubocop'
-//      }
-    }
-
-    stage('Deployment') {
-//      steps {
-        rake 'deploy'
-//      }
-    }
-//  }
+  stage('Deployment') {
+    rake 'deploy'
+  }
 }
 
 // Helper function for rake
