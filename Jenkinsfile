@@ -19,9 +19,11 @@ pipeline {
         sh returnStdout: false, script: '''#!/bin/bash --login
           set +x
           source /usr/share/rvm/scripts/rvm && \
-            rvm use --install --create 2.5.3@$xd_grafana && \
+            rvm use --install --create 2.5.3 && \
             export | egrep -i "(ruby|rvm)" > rvm.env
           set -x
+          rvm list
+          rvm default 2.5.3
           which bundle || gem install bundler
           bundle install
         '''
