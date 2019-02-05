@@ -11,17 +11,16 @@ pipeline {
     stage('Commit') {
       steps {
         sh 'rm -rf ./*'
+
         checkout scm
         // rvm = new RVMHelper()
         // rvm.setup('2.5.3', repo_name)
         // sh 'source /usr/share/rvm/scripts/rvm'
 
         sh returnStdout: false, script: '''#!/bin/bash --login
-          set +x
           source /usr/share/rvm/scripts/rvm && \
             rvm use --install --create 2.5.3 && \
             export | egrep -i "(ruby|rvm)" > rvm.env
-          set -x
           rvm list
           rvm default 2.5.3
           which bundle || gem install bundler
