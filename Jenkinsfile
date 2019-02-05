@@ -15,9 +15,9 @@ pipeline {
         // rvm = new RVMHelper()
         // rvm.setup('2.5.3', repo_name)
         // sh 'source /usr/share/rvm/scripts/rvm'
-        // sh 'rvm list'
-        // sh '. /usr/share/rvm/scripts/rvm'
-        // sh 'rvm use default 2.5.3'
+        sh 'rvm list'
+        sh 'source /usr/share/rvm/scripts/rvm'
+        sh 'rvm use default 2.5.3'
         sh 'ruby --version'
         sh 'which bundle || gem install bundler'
         sh 'bundle install'
