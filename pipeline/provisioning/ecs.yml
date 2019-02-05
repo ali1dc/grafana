@@ -30,9 +30,9 @@ Parameters:
   ContainerName:
     Description: Container name
     Type: String
-  # StackName:
-  #   Description: Cloudformation stack name
-  #   Type: String
+  StackName:
+    Description: Cloudformation stack name
+    Type: String
   CpuReservation:
     Description: CPU reservation for ECS Service Task
     Type: String
