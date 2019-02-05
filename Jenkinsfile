@@ -21,8 +21,8 @@ pipeline {
           source /usr/share/rvm/scripts/rvm && \
             rvm use --install --create 2.5.3 && \
             export | egrep -i "(ruby|rvm)" > rvm.env
+          rvm use default 2.5.3
           rvm list
-          rvm default 2.5.3
           which bundle || gem install bundler
           bundle install
         '''
