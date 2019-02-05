@@ -22,7 +22,9 @@ pipeline {
             rvm use --install --create 2.5.3 && \
             export | egrep -i "(ruby|rvm)" > rvm.env
           rvm use default 2.5.3
+          rvm alias create default ruby-2.5.3
           rvm list
+
           which bundle || gem install bundler
           bundle install
         '''
