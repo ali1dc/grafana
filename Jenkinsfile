@@ -16,15 +16,8 @@ pipeline {
         // rvm.setup('2.5.3', repo_name)
         // sh 'source /usr/share/rvm/scripts/rvm'
         sh 'rvm list'
-        sh '''
-          #!/bin/bash –login
-          echo $PATH
-          ruby --version
-          source /usr/share/rvm/scripts/rvm
-          rvm use default 2.5.3
-          ruby --version
-          rvm list
-        '''
+        sh 'source /usr/share/rvm/scripts/rvm'
+        sh 'rvm use default 2.5.3'
         sh 'ruby --version'
         sh 'bundle install'
       }
