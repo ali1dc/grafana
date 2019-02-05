@@ -46,8 +46,8 @@ pipeline {
 }
 
 // Helper function for rake
-def rake(String command) {
-  // sh "bundle exec rake $command"
+def rake(String task) {
+  // sh "bundle exec rake $task"
   sh returnStdout: false, script: '''#!/bin/bash --login
     set +x
     . rvm.env
