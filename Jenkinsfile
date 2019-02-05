@@ -4,9 +4,9 @@
 
 repo_name = 'xd_grafana'
 
-pipeline {
-  agent any
-  stages {
+node {
+//  agent any
+//  stages {
     stage('Commit') {
 
       properties([
@@ -26,17 +26,17 @@ pipeline {
     }
 
     stage('Code Analysis') {
-      steps {
+//      steps {
         rake 'rubocop'
-      }
+//      }
     }
 
     stage('Deployment') {
-      steps {
+//      steps {
         rake 'deploy'
-      }
+//      }
     }
-  }
+//  }
 }
 
 // Helper function for rake
