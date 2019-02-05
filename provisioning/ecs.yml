@@ -42,6 +42,9 @@ Parameters:
   AsgSubnets:
     Description: ASG subnets
     Type: String
+  ImageName:
+    Description: docker image name
+    Type: String
 
 Mappings:
   AWSRegionToAMI:
