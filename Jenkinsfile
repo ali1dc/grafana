@@ -14,8 +14,8 @@ pipeline {
         checkout scm
         // rvm = new RVMHelper()
         // rvm.setup('2.5.3', repo_name)
+        sh 'source /usr/local/rvm/scripts/rvm'
         sh 'rvm list'
-        sh 'whoami'
         sh 'rvm use 2.5.3'
         sh 'ruby --version'
         sh 'bundle install'
