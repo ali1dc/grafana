@@ -2,7 +2,7 @@
 // @Library(pipeline-helpers)
 // import pipeline.helpers.RVMHelper
 
-repo_name = xd_grafana
+repo_name = 'xd_grafana'
 
 pipeline {
   agent any
