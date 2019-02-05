@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library(pipeline-gelpers)
+@Library(pipeline-helpers)
 import pipeline.helpers.RVMHelper
 
 repo_name = xd_grafana
