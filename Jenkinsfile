@@ -16,6 +16,7 @@ pipeline {
         // rvm.setup('2.5.3', repo_name)
         sh 'ruby --version'
         sh 'rvm list'
+        sh 'whoami'
         sh 'rvm use ruby-2.5.3'
         sh 'bundle install'
       }
