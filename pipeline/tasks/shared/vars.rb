@@ -2,5 +2,5 @@
 @docker = MinimalPipeline::Docker.new
 @keystore = MinimalPipeline::Keystore.new
 
-# ENV['AWS_REGION'] = ENV['REGION']
+ENV['AWS_REGION'] = 'us-east-1'
 @port = 80
