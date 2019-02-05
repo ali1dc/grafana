@@ -17,7 +17,7 @@ pipeline {
         // sh 'source /usr/share/rvm/scripts/rvm'
         sh 'rvm list'
         sh '''
-          #!/bin/bash -l
+          #!/bin/bash –login
           echo $PATH
           ruby --version
           source /usr/share/rvm/scripts/rvm
