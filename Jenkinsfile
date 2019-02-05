@@ -48,10 +48,10 @@ pipeline {
 // Helper function for rake
 def rake(String task) {
   // sh "bundle exec rake $task"
-  sh returnStdout: false, script: '''#!/bin/bash --login
+  sh returnStdout: false, script: """#!/bin/bash --login
     set +x
     . rvm.env
     set -x
     bundle exec rake ${task}
-  '''
+  """
 }
