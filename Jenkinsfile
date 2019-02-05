@@ -17,8 +17,7 @@ pipeline {
         sh 'ruby --version'
         sh 'rvm list'
         sh 'whoami'
-        // sh 'rvm use 2.5.3'
-
+        sh 'rvm use 2.5.3'
         sh 'bundle install'
       }
     }
