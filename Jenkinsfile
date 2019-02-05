@@ -16,13 +16,14 @@ pipeline {
         // rvm.setup('2.5.3', repo_name)
         // sh 'source /usr/share/rvm/scripts/rvm'
         sh 'rvm list'
-        // sh 'source /usr/share/rvm/scripts/rvm'
-        sh 'sudo apt-get install rvm'
-        sh 'rvm install 2.5.3'
-        sh 'rvm use 2.5.3'
-        sh 'ruby --version'
-        sh 'which bundle || gem install bundler'
-        sh 'bundle install'
+        sh '''
+          #/bin/bash --login
+          sudo apt-get install rvm
+          rvm reinstall 2.5.3
+          rvm use 2.5.3
+          which bundle || gem install bundler
+          bundle install
+        '''
       }
     }
 
