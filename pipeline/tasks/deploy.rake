@@ -9,7 +9,7 @@ task :deploy do
 
   parameters = {
     'StackName' => stack_name,
-    'VpcId' => 'vpc-123456',
+    'VpcId' => @keystore.retrieve('VPC_ID'),
     'AsgSubnets' => [subnet1, subnet2, subnet3].join(','),
     'SubnetId' => '',
     'DesiredCapacity' => '1',
