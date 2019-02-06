@@ -47,10 +47,10 @@ Parameters:
     Type: String
   AlbSecurityGroup:
     Description: Public security group for ALB
-    Type: AWS::EC2::SecurityGroup
+    Type: AWS::EC2::SecurityGroup::Id
   EcsSecurityGroup:
     Description: Public security group for ECS cluster
-    Type: AWS::EC2::SecurityGroup
+    Type: AWS::EC2::SecurityGroup::Id
 
 Mappings:
   AWSRegionToAMI:
