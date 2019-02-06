@@ -1,4 +1,5 @@
 desc 'Deploy Grafana'
+# rubocop:disable Metrics/BlockLength
 task :deploy do
   puts 'deploy ecs cloudformation template'
   stack_name = 'GRAFANA-ECS'
@@ -40,3 +41,4 @@ def get_subnets(subnet_cluster)
   subnet3 = @keystore.retrieve("#{subnet_cluster}_SUBNET_3")
   [subnet1, subnet2, subnet3].join(',')
 end
+# rubocop:enable Metrics/BlockLength
