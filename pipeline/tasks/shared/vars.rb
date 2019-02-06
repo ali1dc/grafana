@@ -3,4 +3,4 @@
 @keystore = MinimalPipeline::Keystore.new
 
 ENV['AWS_REGION'] = 'us-east-1'
-@port = 80
+@port = 3000

@@ -51,6 +51,9 @@ Parameters:
   EcsSecurityGroup:
     Description: Public security group for ECS cluster
     Type: AWS::EC2::SecurityGroup::Id
+  Port:
+    Description: image port
+    Type: String
 
 Mappings:
   AWSRegionToAMI:
@@ -129,7 +132,7 @@ Resources:
         # - ContainerPath: /usr/local/apache2/htdocs
         #   SourceVolume: my-vol
         PortMappings:
-        - ContainerPort: 80
+        - ContainerPort: !Ref 'Port'
       # Volumes:
       # - Name: my-vol
   ECSALB:
@@ -150,7 +153,7 @@ Resources:
       - Type: forward
         TargetGroupArn: !Ref 'ECSTG'
       LoadBalancerArn: !Ref 'ECSALB'
-      Port: '80'
+      Port: !Ref 'Port'
       Protocol: HTTP
   ECSALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
@@ -174,7 +177,7 @@ Resources:
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       Name: ECSTG
-      Port: 80
+      Port: !Ref 'Port'
       Protocol: HTTP
       UnhealthyThresholdCount: 2
       VpcId: !Ref 'VpcId'
@@ -214,7 +217,7 @@ Resources:
       DesiredCount: '1'
       LoadBalancers:
       - ContainerName: !Ref 'ContainerName'
-        ContainerPort: '80'
+        ContainerPort: !Ref 'Port'
         TargetGroupArn: !Ref 'ECSTG'
       Role: !Ref 'ECSServiceRole'
       TaskDefinition: !Ref 'taskdefinition'
