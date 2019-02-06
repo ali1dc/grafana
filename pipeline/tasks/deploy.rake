@@ -3,16 +3,18 @@ task :deploy do
   puts 'deploy ecs cloudformation template'
   stack_name = 'GRAFANA-ECS'
 
-  subnet1 = @keystore.retrieve('PRIVATE_SUBNET_1')
-  subnet2 = @keystore.retrieve('PRIVATE_SUBNET_2')
-  subnet3 = @keystore.retrieve('PRIVATE_SUBNET_3')
+  public_subnets = get_subnets('public')
+  private_subnets = get_subnets('private')
+  public_sg = @keystore.retrieve('PUBLIC_SECURITY_GROUP')
+  private_sg = @keystore.retrieve('PRIVATE_SECURITY_GROUP')
 
   parameters = {
     'StackName' => stack_name,
     'VpcId' => @keystore.retrieve('VPC_ID'),
-    'AsgSubnets' => [subnet1, subnet2, subnet3].join(','),
-    'SubnetId' => 'subnet-fd74d9b7,subnet-bcf2ebe1,subnet-24807443',
-    # 'SubnetId' => [subnet1, subnet2, subnet3].join(','),
+    'PrivateSubnetIds' => private_subnets,
+    'PublicSubnetIds' => public_subnets,
+    'AlbSecurityGroup' => public_sg,
+    'EcsSecurityGroup' => private_sg,
     'DesiredCapacity' => '1',
     'MaxSize' => '1',
     'InstanceType' => 'm4.large',
@@ -29,4 +31,12 @@ task :deploy do
     'provisioning/ecs.yml'
   )
   puts 'done!'
+end
+
+def get_subnets(subnet_cluster)
+  subnet_cluster.upcase!
+  subnet1 = @keystore.retrieve("#{subnet_cluster}_SUBNET_1")
+  subnet2 = @keystore.retrieve("#{subnet_cluster}_SUBNET_2")
+  subnet3 = @keystore.retrieve("#{subnet_cluster}_SUBNET_3")
+  [subnet1, subnet2, subnet3].join(',')
 end
