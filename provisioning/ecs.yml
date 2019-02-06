@@ -6,7 +6,10 @@ Parameters:
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: Select a VPC that allows instances access to the Internet.
-  SubnetId:
+  PrivateSubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Select at two subnets in your selected VPC.
+  PublicSubnetIds:
     Type: List<AWS::EC2::Subnet::Id>
     Description: Select at two subnets in your selected VPC.
   DesiredCapacity:
@@ -39,12 +42,15 @@ Parameters:
   MemoryReservation:
     Description: Memory reservation for ECS Service Task
     Type: String
-  AsgSubnets:
-    Description: ASG subnets
-    Type: String
   ImageName:
     Description: docker image name
     Type: String
+  AlbSecurityGroup:
+    Description: Public security group for ALB
+    Type: AWS::EC2::SecurityGroup
+  EcsSecurityGroup:
+    Description: Public security group for ECS cluster
+    Type: AWS::EC2::SecurityGroup
 
 Mappings:
   AWSRegionToAMI:
@@ -69,35 +75,35 @@ Mappings:
 Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
-  EcsSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: ECS Security Group
-      VpcId: !Ref 'VpcId'
-  EcsSecurityGroupHTTPinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '80'
-      ToPort: '80'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupSSHinbound:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
-      CidrIp: 0.0.0.0/0
-  EcsSecurityGroupALBports:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref 'EcsSecurityGroup'
-      IpProtocol: tcp
-      FromPort: '31000'
-      ToPort: '61000'
-      SourceSecurityGroupId: !Ref 'EcsSecurityGroup'
+  # EcsSecurityGroup:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties:
+  #     GroupDescription: ECS Security Group
+  #     VpcId: !Ref 'VpcId'
+  # EcsSecurityGroupHTTPinbound:
+  #   Type: AWS::EC2::SecurityGroupIngress
+  #   Properties:
+  #     GroupId: !Ref 'EcsSecurityGroup'
+  #     IpProtocol: tcp
+  #     FromPort: '80'
+  #     ToPort: '80'
+  #     CidrIp: 0.0.0.0/0
+  # EcsSecurityGroupSSHinbound:
+  #   Type: AWS::EC2::SecurityGroupIngress
+  #   Properties:
+  #     GroupId: !Ref 'EcsSecurityGroup'
+  #     IpProtocol: tcp
+  #     FromPort: '22'
+  #     ToPort: '22'
+  #     CidrIp: 0.0.0.0/0
+  # EcsSecurityGroupALBports:
+  #   Type: AWS::EC2::SecurityGroupIngress
+  #   Properties:
+  #     GroupId: !Ref 'EcsSecurityGroup'
+  #     IpProtocol: tcp
+  #     FromPort: '31000'
+  #     ToPort: '61000'
+  #     SourceSecurityGroupId: !Ref 'EcsSecurityGroup'
   CloudwatchLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -134,8 +140,8 @@ Resources:
       LoadBalancerAttributes:
       - Key: idle_timeout.timeout_seconds
         Value: '30'
-      Subnets: !Ref 'SubnetId'
-      SecurityGroups: [!Ref 'EcsSecurityGroup']
+      Subnets: !Ref 'PublicSubnetIds'
+      SecurityGroups: [!Ref 'AlbSecurityGroup']
   ALBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     DependsOn: ECSServiceRole
@@ -175,7 +181,7 @@ Resources:
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      VPCZoneIdentifier: !Ref 'SubnetId'
+      VPCZoneIdentifier: !Ref 'PrivateSubnetIds'
       LaunchConfigurationName: !Ref 'ContainerInstances'
       MinSize: '1'
       MaxSize: !Ref 'MaxSize'
