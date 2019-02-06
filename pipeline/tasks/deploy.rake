@@ -12,7 +12,7 @@ task :deploy do
     'VpcId' => @keystore.retrieve('VPC_ID'),
     'AsgSubnets' => [subnet1, subnet2, subnet3].join(','),
     # 'SubnetId' => 'subnet-fd74d9b7',
-    'SubnetId' => [subnet1, subnet2, subnet3],
+    'SubnetId' => [subnet1, subnet2, subnet3].join(','),
     'DesiredCapacity' => '1',
     'MaxSize' => '1',
     'InstanceType' => 'm4.large',
