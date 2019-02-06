@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Description: ECS Service for grafana
 Parameters:
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
@@ -78,35 +79,6 @@ Mappings:
 Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
-  # EcsSecurityGroup:
-  #   Type: AWS::EC2::SecurityGroup
-  #   Properties:
-  #     GroupDescription: ECS Security Group
-  #     VpcId: !Ref 'VpcId'
-  # EcsSecurityGroupHTTPinbound:
-  #   Type: AWS::EC2::SecurityGroupIngress
-  #   Properties:
-  #     GroupId: !Ref 'EcsSecurityGroup'
-  #     IpProtocol: tcp
-  #     FromPort: '80'
-  #     ToPort: '80'
-  #     CidrIp: 0.0.0.0/0
-  # EcsSecurityGroupSSHinbound:
-  #   Type: AWS::EC2::SecurityGroupIngress
-  #   Properties:
-  #     GroupId: !Ref 'EcsSecurityGroup'
-  #     IpProtocol: tcp
-  #     FromPort: '22'
-  #     ToPort: '22'
-  #     CidrIp: 0.0.0.0/0
-  # EcsSecurityGroupALBports:
-  #   Type: AWS::EC2::SecurityGroupIngress
-  #   Properties:
-  #     GroupId: !Ref 'EcsSecurityGroup'
-  #     IpProtocol: tcp
-  #     FromPort: '31000'
-  #     ToPort: '61000'
-  #     SourceSecurityGroupId: !Ref 'EcsSecurityGroup'
   CloudwatchLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -171,15 +143,15 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     DependsOn: ECSALB
     Properties:
-      HealthCheckIntervalSeconds: 10
-      HealthCheckPath: /
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /api/health
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 5
+      HealthCheckTimeoutSeconds: 10
       HealthyThresholdCount: 2
       Name: ECSTG
       Port: !Ref 'Port'
       Protocol: HTTP
-      UnhealthyThresholdCount: 2
+      UnhealthyThresholdCount: 10
       VpcId: !Ref 'VpcId'
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
