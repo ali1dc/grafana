@@ -125,8 +125,8 @@ Resources:
       - Type: forward
         TargetGroupArn: !Ref 'ECSTG'
       LoadBalancerArn: !Ref 'ECSALB'
-      Port: !Ref 'Port'
-      Protocol: HTTP
+      Port: 433
+      Protocol: HTTPS
   ECSALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     DependsOn: ALBListener
