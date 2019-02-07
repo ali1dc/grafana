@@ -24,7 +24,8 @@ task :deploy do
     'MemoryReservation' => '1024',
     'KeyName' => @keystore.retrieve('SSH_KEYNAME'),
     'ImageName' => 'grafana/grafana',
-    'Port' => @port
+    'Port' => @port,
+    'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN')
   }
 
   @cloudformation.deploy_stack(
