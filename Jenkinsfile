@@ -22,7 +22,11 @@ node {
       rake 'rubocop'
     }
 
-    stage('Deployment') {
+    stage('Deployment - RDS') {
+      rake 'deploy:rds'
+    }
+
+    stage('Deployment - ECS') {
       rake 'deploy'
     }
   }
