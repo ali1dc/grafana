@@ -58,6 +58,16 @@ Parameters:
   SslCertArn:
     Description: SSL Certification ARN uploaded in IAM server certificates
     Type: String
+  DbHost:
+    Description: Postgres DB host:port
+    Type: String
+  DbUser:
+    Description: Postgres DB user
+    Type: String
+  DbPassword:
+    Description: Postgres DB password
+    Type: String
+
 Mappings:
   AWSRegionToAMI:
     us-east-1:
@@ -109,6 +119,15 @@ Resources:
         - ContainerPort: !Ref 'Port'
       # Volumes:
       # - Name: my-vol
+        Environment:
+          - Name: GF_DATABASE_TYPE
+            Value: postgres
+          - Name: GF_DATABASE_HOST
+            Value: !Ref 'DbHost'
+          - Name: GF_DATABASE_USER
+            Value: !Ref 'DbUser'
+          - Name: GF_DATABASE_PASSWORD
+            Value: !Ref 'DbPassword'
   ECSALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:

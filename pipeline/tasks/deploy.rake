@@ -8,6 +8,10 @@ task :deploy do
   private_subnets = get_subnets('private')
   public_sg = @keystore.retrieve('PUBLIC_SECURITY_GROUP')
   private_sg = @keystore.retrieve('PRIVATE_SECURITY_GROUP')
+  db_host = @cloudformation.stack_output('GRAFANA-RDS', 'DbHost')
+  db_port = @cloudformation.stack_output('GRAFANA-RDS', 'DbPort')
+  db_user = @keystore.retrieve('GRAFANA_RDS_USER')
+  db_password = @keystore.retrieve('GRAFANA_RDS_PASSWORD')
 
   parameters = {
     'StackName' => stack_name,
@@ -25,7 +29,10 @@ task :deploy do
     'KeyName' => @keystore.retrieve('SSH_KEYNAME'),
     'ImageName' => 'grafana/grafana',
     'Port' => @port,
-    'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN')
+    'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN'),
+    'DbHost' => "#{db_host}:#{db_port}",
+    'DbUser' => db_user,
+    'DbPassword' => db_password
   }
 
   @cloudformation.deploy_stack(
