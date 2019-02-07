@@ -1,0 +1,90 @@
+---
+Description: Grafana Config Data - RDS Instance
+Parameters:
+  Vpc:
+    Type: String
+    Description: ID of VPC to launch into
+  DbSubnetGroupId:
+    Type: String
+    Description: RDS Subnet Group ID to launch into
+  DbInstanceIdentifier:
+    Type: String
+    Description: DB Instance ID
+  DbSnapshotIdentifier:
+    Type: String
+    Description: DB Snapshot ID
+  DbUsername:
+    Type: String
+    Description: DB master username
+  DbPassword:
+    Type: String
+    Description: DB master password
+  DbInstanceClass:
+    Type: String
+    Description: DB Instance class
+  DbAllocatedStorage:
+    Type: String
+    Description: The size of the database (Gb)
+  MultiAzEnabled:
+    Type: String
+    Description: Multi AZ Enabled
+    Default: 'false'
+  DbParameterGroup:
+    Description: Name of the shared RDS DB parameter group
+    Type: String
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow incoming connections to RDS
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '5432'
+        ToPort: '5432'
+        CidrIp: 10.0.0.0/8
+      VpcId:
+        Ref: Vpc
+  Instance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBParameterGroupName:
+        Ref: DbParameterGroup
+      AllocatedStorage:
+        Ref: DbAllocatedStorage
+      BackupRetentionPeriod: '1'
+      DBInstanceClass:
+        Ref: DbInstanceClass
+      DBInstanceIdentifier:
+        Ref: DbInstanceIdentifier
+      DBSubnetGroupName:
+        Ref: DbSubnetGroupId
+      DBName: grafana
+      Engine: postgres
+      EngineVersion: '9.4'
+      MasterUserPassword:
+        Ref: DbPassword
+      MasterUsername:
+        Ref: DbUsername
+      MultiAZ:
+        Ref: MultiAzEnabled
+      StorageEncrypted: true
+      StorageType: gp2
+      VPCSecurityGroups:
+      - Ref: SecurityGroup
+Outputs:
+  DbHost:
+    Description: RDS Hostname
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - Endpoint.Address
+  DbPort:
+    Description: RDS Port
+    Value:
+      Fn::GetAtt:
+      - Instance
+      - Endpoint.Port
+  Creator:
+    Description: Stack creator
+    Value: jenkins
+AWSTemplateFormatVersion: '2010-09-09'
