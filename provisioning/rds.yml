@@ -67,7 +67,7 @@ Resources:
         Ref: DbUsername
       MultiAZ:
         Ref: MultiAzEnabled
-      StorageEncrypted: true
+      StorageEncrypted: false
       StorageType: gp2
       VPCSecurityGroups:
       - Ref: SecurityGroup
