@@ -130,7 +130,7 @@ Resources:
       Port: 433
       Protocol: HTTPS
       Certificates:
-        -CertificationArn: !Ref 'SslCertArn'
+        - CertificationArn: !Ref 'SslCertArn'
   ECSALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     DependsOn: ALBListener
