@@ -127,7 +127,7 @@ Resources:
       - Type: forward
         TargetGroupArn: !Ref 'ECSTG'
       LoadBalancerArn: !Ref 'ECSALB'
-      Port: 433
+      Port: 443
       Protocol: HTTPS
       Certificates:
         - CertificateArn: !Ref 'SslCertArn'
