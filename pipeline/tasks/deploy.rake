@@ -51,11 +51,10 @@ task :'deploy:rds' do
   stack_name = 'GRAFANA-RDS'
 
   parameters = {
-    'StackName' => stack_name,
     'Vpc' => @keystore.retrieve('VPC_ID'),
     'DbSubnetGroupId' => @keystore.retrieve('PUBLIC_RDS_SUBNET_GROUP_ID'),
-    'DbInstanceIdentifier' => 'GRAFANA-RDS',
-    'DbSnapshotIdentifier' => 'GRAFANA-RDS',
+    'DbInstanceIdentifier' => stack_name,
+    'DbSnapshotIdentifier' => stack_name,
     'DbUsername' => @keystore.retrieve('GRAFANA_RDS_USER'),
     'DbPassword' => @keystore.retrieve('GRAFANA_RDS_PASSWORD'),
     'DbInstanceClass' => 'db.t2.micro',
