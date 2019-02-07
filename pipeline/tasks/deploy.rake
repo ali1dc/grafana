@@ -48,7 +48,7 @@ end
 desc 'Deploy RDS instance'
 task :'deploy:rds' do
   puts 'deploy RDS cloudformation template'
-  stack_name 'GRAFANA-RDS'
+  stack_name = 'GRAFANA-RDS'
 
   parameters = {
     'StackName' => stack_name,
