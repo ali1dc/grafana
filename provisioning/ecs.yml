@@ -91,6 +91,8 @@ Mappings:
 Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: EX-INTERNAL-ECS-CLUSTER
   CloudwatchLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
