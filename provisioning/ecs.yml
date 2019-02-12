@@ -68,6 +68,11 @@ Parameters:
     Description: Postgres DB password
     Type: String
 
+  ECSCluster:
+    Description: ECS Cluster
+    Type: String
+    Default: EX-INTERNAL-ECS-CLUSTER
+
 Mappings:
   AWSRegionToAMI:
     us-east-1:
@@ -89,10 +94,6 @@ Mappings:
     ap-southeast-2:
       AMIID: ami-5781be34
 Resources:
-  ECSCluster:
-    Type: AWS::ECS::Cluster
-    Properties:
-      ClusterName: EX-INTERNAL-ECS-CLUSTER
   CloudwatchLogsGroup:
     Type: AWS::Logs::LogGroup
     Properties:
