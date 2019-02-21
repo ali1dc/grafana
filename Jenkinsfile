@@ -26,8 +26,12 @@ node {
       rake 'deploy:rds'
     }
 
+    stage('Deployment - ELB') {
+      rake 'deploy:elb'
+    }
+
     stage('Deployment - ECS') {
-      rake 'deploy'
+      rake 'deploy:fargate'
     }
   }
 }

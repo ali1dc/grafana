@@ -3,7 +3,7 @@
 # $LOAD_PATH << './pipeline/lib'
 
 require 'minimal_pipeline'
-require './pipeline/tasks/shared/vars'
+require './pipeline/tasks/shared/helper'
 # require 'erb'
 
 # Load any .rake files under the current directory
