@@ -31,7 +31,7 @@ node {
     }
 
     stage('Deployment - ECS') {
-      rake 'deploy'
+      rake 'deploy:fargate'
     }
   }
 }
