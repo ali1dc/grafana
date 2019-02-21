@@ -2,7 +2,7 @@
 desc 'Deploy Grafana Fargate'
 task :'deploy:fargate' do
   puts 'deploy ecs cloudformation template'
-  stack_name = 'GRAFANA-ECS'
+  stack_name = 'GRAFANA-FARGATE'
   service_name = 'grafana'
   private_subnets = get_subnets('private')
   private_sg = @keystore.retrieve('PRIVATE_SECURITY_GROUP')
