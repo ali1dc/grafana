@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ELB for Grafana
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select a VPC that allows instances access to the Internet.
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Select at two subnets in your selected VPC.
+  SecurityGroupId:
+    Description: Public security group for ALB
+    Type: AWS::EC2::SecurityGroup::Id
+  Port:
+    Description: Container port
+    Type: String
+  SslCertArn:
+    Description: SSL Certification ARN uploaded in IAM server certificates
+    Type: String
+
+Resources:
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      LoadBalancerAttributes:
+      - Key: idle_timeout.timeout_seconds
+        Value: '30'
+      Subnets: !Ref 'SubnetIds'
+      SecurityGroups: [!Ref 'SecurityGroupId']
+  LoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+      - Type: forward
+        TargetGroupArn: !Ref 'LoadBalancerTargetGroup'
+      LoadBalancerArn: !Ref 'LoadBalancer'
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref 'SslCertArn'
+  LoadBalancerListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn: LoadBalancerListener
+    Properties:
+      Actions:
+      - Type: forward
+        TargetGroupArn: !Ref 'LoadBalancerTargetGroup'
+      Conditions:
+      - Field: path-pattern
+        Values: [/]
+      ListenerArn: !Ref 'LoadBalancerListener'
+      Priority: 1
+  LoadBalancerTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    DependsOn: LoadBalancer
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 2
+      Port: !Ref 'Port'
+      Protocol: HTTP
+      UnhealthyThresholdCount: 10
+      VpcId: !Ref 'VpcId'
+      TargetType: ip
+Outputs:
+  LoadBalancer:
+    Description: Your ALB DNS URL
+    Value: !Join ['', [!GetAtt [LoadBalancer, DNSName]]]
+  TargetGroup:
+    Value: !Ref LoadBalancerTargetGroup
