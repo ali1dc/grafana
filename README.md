@@ -23,11 +23,7 @@ export GF_DATABASE_PASSWORD={db-password}
 ##### How to run
 ```sh
 docker-compose up
-```
 
-##### How to run
-
-```
 http://localhost:3000
 default user: admin
 default password: admin
