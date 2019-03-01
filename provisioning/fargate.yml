@@ -90,7 +90,6 @@ Resources:
           Image: !Ref Image
           PortMappings:
             - ContainerPort: !Ref Port
-            - ContainerPort: 6001
           Environment:
             - Name: GF_DATABASE_TYPE
               Value: postgres
