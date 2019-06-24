@@ -59,7 +59,7 @@ task :'deploy:rds' do
 
   parameters = {
     'Vpc' => @keystore.retrieve('VPC_ID'),
-    'DbSubnetGroupId' => @keystore.retrieve('PRIVATE_SUBNET_1'),
+    'DbSubnetGroupId' => @keystore.retrieve('DB_SUBNET_ID'),
     'DbInstanceIdentifier' => stack_name.downcase,
     'DbSnapshotIdentifier' => stack_name.downcase,
     'DbUsername' => @keystore.retrieve('GRAFANA_RDS_USER'),
