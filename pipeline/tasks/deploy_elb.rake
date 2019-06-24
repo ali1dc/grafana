@@ -11,7 +11,7 @@ task :'deploy:elb' do
     'SubnetIds' => public_subnets,
     'SecurityGroupId' => public_sg,
     'Port' => @port
-    # todo: add cert later
+    # TODO: add cert later
     # 'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN')
   }
 
