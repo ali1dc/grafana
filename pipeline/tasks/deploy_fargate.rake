@@ -2,15 +2,15 @@
 desc 'Deploy Grafana Fargate'
 task :'deploy:fargate' do
   puts 'deploy ecs cloudformation template'
-  stack_name = 'GRAFANA-FARGATE'
+  stack_name = 'XSP-GRAFANA-FARGATE'
   service_name = 'grafana'
   private_subnets = get_subnets('private')
   private_sg = @keystore.retrieve('PRIVATE_SECURITY_GROUP')
   target_group = \
-    @cloudformation.stack_output('GRAFANA-ELB', 'TargetGroup')
-  ecs_cluster = 'EX-INTERNAL-ECS-CLUSTER'
-  db_host = @cloudformation.stack_output('GRAFANA-RDS', 'DbHost')
-  db_port = @cloudformation.stack_output('GRAFANA-RDS', 'DbPort')
+    @cloudformation.stack_output('XSP-GRAFANA-ELB', 'TargetGroup')
+  ecs_cluster = @keystore.retrieve('INTERNAL_ECS_CLUSTER')
+  db_host = @cloudformation.stack_output('XSP-GRAFANA-RDS', 'DbHost')
+  db_port = @cloudformation.stack_output('XSP-GRAFANA-RDS', 'DbPort')
   db_user = @keystore.retrieve('GRAFANA_RDS_USER')
   db_password = @keystore.retrieve('GRAFANA_RDS_PASSWORD')
 

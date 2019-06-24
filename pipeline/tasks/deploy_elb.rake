@@ -1,7 +1,7 @@
 desc 'Deploy Grafana ELB'
 task :'deploy:elb' do
   puts 'deploy elb cloudformation template'
-  stack_name = 'GRAFANA-ELB'
+  stack_name = 'XSP-GRAFANA-ELB'
 
   public_subnets = get_subnets('public')
   public_sg = @keystore.retrieve('PUBLIC_SECURITY_GROUP')
@@ -10,8 +10,9 @@ task :'deploy:elb' do
     'VpcId' => @keystore.retrieve('VPC_ID'),
     'SubnetIds' => public_subnets,
     'SecurityGroupId' => public_sg,
-    'Port' => @port,
-    'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN')
+    'Port' => @port
+    # todo: add cert later
+    # 'SslCertArn' => @keystore.retrieve('SSL_CERT_ARN')
   }
 
   @cloudformation.deploy_stack(

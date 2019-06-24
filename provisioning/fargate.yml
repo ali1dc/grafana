@@ -195,5 +195,5 @@ Resources:
         # Keep things at or lower than 50% CPU utilization, for example
         TargetValue: !Ref AutoScalingTargetValue
 Outputs:
-  ecsservice:
+  GrafanaService:
     Value: !Ref 'Service'

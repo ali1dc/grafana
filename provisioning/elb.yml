@@ -13,9 +13,9 @@ Parameters:
   Port:
     Description: Container port
     Type: String
-  SslCertArn:
-    Description: SSL Certification ARN uploaded in IAM server certificates
-    Type: String
+  # SslCertArn:
+  #   Description: SSL Certification ARN uploaded in IAM server certificates
+  #   Type: String
 
 Resources:
   LoadBalancer:
@@ -34,10 +34,12 @@ Resources:
       - Type: forward
         TargetGroupArn: !Ref 'LoadBalancerTargetGroup'
       LoadBalancerArn: !Ref 'LoadBalancer'
-      Port: 443
-      Protocol: HTTPS
-      Certificates:
-        - CertificateArn: !Ref 'SslCertArn'
+      Port: 80
+      Protocol: HTTP
+      # Port: 443
+      # Protocol: HTTPS
+      # Certificates:
+      #   - CertificateArn: !Ref 'SslCertArn'
   LoadBalancerListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     DependsOn: LoadBalancerListener

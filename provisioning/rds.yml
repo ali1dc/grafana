@@ -19,6 +19,9 @@ Parameters:
   DbPassword:
     Type: String
     Description: DB master password
+  DbName:
+    Type: String
+    Description: DB name
   DbInstanceClass:
     Type: String
     Description: DB Instance class
@@ -31,6 +34,9 @@ Parameters:
     Default: 'false'
   DbParameterGroup:
     Description: Name of the shared RDS DB parameter group
+    Type: String
+  EngineVersion:
+    Description: DB engin version
     Type: String
 Resources:
   SecurityGroup:
@@ -58,9 +64,11 @@ Resources:
         Ref: DbInstanceIdentifier
       DBSubnetGroupName:
         Ref: DbSubnetGroupId
-      DBName: grafana
+      DBName:
+        Ref: DbName
       Engine: postgres
-      EngineVersion: '9.6'
+      EngineVersion:
+        Ref: EngineVersion
       MasterUserPassword:
         Ref: DbPassword
       MasterUsername:

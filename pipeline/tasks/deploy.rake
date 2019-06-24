@@ -2,14 +2,14 @@ desc 'Deploy Grafana'
 # rubocop:disable Metrics/BlockLength
 task :deploy do
   puts 'deploy ecs cloudformation template'
-  stack_name = 'GRAFANA-ECS'
+  stack_name = 'XSP-GRAFANA-ECS'
 
   public_subnets = get_subnets('public')
   private_subnets = get_subnets('private')
   public_sg = @keystore.retrieve('PUBLIC_SECURITY_GROUP')
   private_sg = @keystore.retrieve('PRIVATE_SECURITY_GROUP')
-  db_host = @cloudformation.stack_output('GRAFANA-RDS', 'DbHost')
-  db_port = @cloudformation.stack_output('GRAFANA-RDS', 'DbPort')
+  db_host = @cloudformation.stack_output('XSP-GRAFANA-RDS', 'DbHost')
+  db_port = @cloudformation.stack_output('XSP-GRAFANA-RDS', 'DbPort')
   db_user = @keystore.retrieve('GRAFANA_RDS_USER')
   db_password = @keystore.retrieve('GRAFANA_RDS_PASSWORD')
 
@@ -55,19 +55,21 @@ end
 desc 'Deploy RDS instance'
 task :'deploy:rds' do
   puts 'deploy RDS cloudformation template'
-  stack_name = 'GRAFANA-RDS'
+  stack_name = 'XSP-GRAFANA-RDS'
 
   parameters = {
     'Vpc' => @keystore.retrieve('VPC_ID'),
-    'DbSubnetGroupId' => @keystore.retrieve('PUBLIC_RDS_SUBNET_GROUP_ID'),
-    'DbInstanceIdentifier' => stack_name,
-    'DbSnapshotIdentifier' => stack_name,
+    'DbSubnetGroupId' => @keystore.retrieve('PRIVATE_SUBNET_1'),
+    'DbInstanceIdentifier' => stack_name.downcase,
+    'DbSnapshotIdentifier' => stack_name.downcase,
     'DbUsername' => @keystore.retrieve('GRAFANA_RDS_USER'),
     'DbPassword' => @keystore.retrieve('GRAFANA_RDS_PASSWORD'),
+    'DbName' => 'grafana',
     'DbInstanceClass' => 'db.t2.micro',
-    'DbAllocatedStorage' => '20',
+    'DbAllocatedStorage' => '10',
     'MultiAzEnabled' => 'false',
-    'DbParameterGroup' => 'debezium-postgres96'
+    'DbParameterGroup' => 'default.postgres11',
+    'EngineVersion' => '11.2'
   }
 
   @cloudformation.deploy_stack(
