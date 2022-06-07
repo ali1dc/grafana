@@ -41,7 +41,7 @@ GEM
       multi_json
     excon (0.62.0)
     jaro_winkler (1.5.2)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     keystore (0.3.0)
       aws-sdk-dynamodb
       aws-sdk-kms
