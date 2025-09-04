@@ -12,7 +12,9 @@ phases:
     commands:
       # - echo "Building the Docker image... $REPOSITORY_URI:$IMAGE_TAG"
       - echo "Building the Docker image... $REPOSITORY_URI"
-      - docker build -t grafana .
+      - docker build --load -t grafana .
+      - sleep 10
+      - docker images
       - docker tag grafana:latest $REPOSITORY_URI:latest
       # - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - sleep 10
@@ -20,7 +22,7 @@ phases:
   post_build:
     commands:
       - echo "Pushing the Docker image to Amazon ECR..."
-      - docker images
+      # - docker images
       - docker push $REPOSITORY_URI:latest
       # - docker push $REPOSITORY_URI:$IMAGE_TAG
 
