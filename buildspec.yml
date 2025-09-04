@@ -11,7 +11,8 @@ phases:
   build:
     commands:
       - echo "Building the Docker image... $REPOSITORY_URI"
-      - docker build -t --load $REPOSITORY_URI:latest .
+      - docker build --load -t grafana .
+      - docker tag grafana:latest $REPOSITORY_URI:latest
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
